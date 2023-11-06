@@ -1,0 +1,68 @@
+# As teacher normally do the grading, this coding is from teacher's perpective
+# Lets go! 
+teacher = input("\nPlease enter teacher's name: ")
+print("Greeting and Hello Teacher " + teacher.title() + "!")
+print("Lets start grading")
+print("\n***********************************************************************")
+
+# Subjects is determined to Physics, Math, Eng and Chem
+# Initialize an empty dictionary to store student names and their subject-wise grades
+subjects = ['Physics', 'Mathematics', 'English', 'Chemistry']
+students = {}
+
+# Input student names and their grades
+num_students = int(input("\nHow many students do you have in class?: "))
+for i in range(num_students):
+    while True:
+        student_name = input(f"\nEnter the name of student {i + 1}: ")
+
+        # Check if the student name contains numeric characters
+        if any(char.isdigit() for char in student_name):
+            print("Error: Student name cannot contain numeric characters.")
+            continue
+        
+        students[student_name] = {}
+        for subject in subjects:
+            while True:
+                try:
+                    grade = float(input(f"Enter {subject} grade for {student_name.title()}: "))
+                    
+                    # Check if the grade is outside the valid range (0-100)
+                    if grade < 0 or grade > 100:
+                        print("Error: Grade must be between 0 and 100.")
+                    else:
+                        students[student_name][subject] = grade
+                        break
+                except ValueError:
+                    print("Error: Invalid input. Please enter a numeric grade.")
+
+        break
+
+# Calculate the average grade for each student
+average_grades = {}
+for student, grades in students.items():
+    average = sum(grades.values()) / len(grades)
+    average_grades[student] = average
+
+# Find the highest and lowest average grades
+highest_average = max(average_grades.values())
+lowest_average = min(average_grades.values())
+
+# Find students with the highest average grade
+students_with_highest_average = [student for student, avg in average_grades.items() if avg == highest_average]
+
+# Find students with the lowest average grade
+students_with_lowest_average = [student for student, avg in average_grades.items() if avg == lowest_average]
+
+# Display the results
+print("\nAverage Grades:")
+for student, average in average_grades.items():
+    print(f"{student.title()}: {average:.2f}")
+
+print("\nHighest Average Grade:")
+for student in students_with_highest_average:
+    print(f"{student.title()}: {highest_average:.2f}")
+
+print("\nLowest Average Grade:")
+for student in students_with_lowest_average:
+    print(f"{student.title()}: {lowest_average:.2f}")
